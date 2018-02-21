@@ -3,7 +3,6 @@
 # This code runs on your VM and receives a stream of packets holding ultrasonic
 # sensor data and prints it to stdout. Use a UDP socket here.
 
-import grovepi
 import socket
 
 ultrasonic_ranger = 4
@@ -20,7 +19,9 @@ def Process_Ultrasonic():
 while True:
 	try:
 
-		print(grovepi.ultrasonicRead(ultrasonic_ranger))
+		data, addr = s.recvfrom(1024)
+		data = data.decode('utf-8')
+		print("Distance: " + data)
 
 	except TypeError:
 		print("Error")
