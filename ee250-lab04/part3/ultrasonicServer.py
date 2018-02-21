@@ -18,7 +18,7 @@ def Process_Ultrasonic():
 
 	while True:
 
-		data, addr = s.recvfrom(1024)
+		data, addr = s.recvfrom(5000)
 		data = data.decode('utf-8')
 
 		print(data)

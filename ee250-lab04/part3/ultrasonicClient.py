@@ -24,7 +24,7 @@ def Main():
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind((host,port))
 
-	dst_port = 8000
+	dst_port = 9000
 
 	while True:
 
