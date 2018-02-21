@@ -22,11 +22,16 @@ def Main():
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind(host,port)
 
+	dst_port = 8000
+
 	while True:
 
 		server = (server_addr, int(dst_port))
-		s.sendto(grovepi.ultrasonicRead(ultrasonic_ranger), server)
-		dst_port = 8000
+		data = str(grovepi.ultrasonicRead(4))
+
+		data = data.encode('utf-8')
+		s.sendto(data, server)
+		print(data)
 
 	s.close()
 
