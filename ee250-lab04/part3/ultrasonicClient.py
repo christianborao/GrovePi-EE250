@@ -24,7 +24,7 @@ def Main():
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind((host,port))
 
-	dst_port = 9000
+	dst_port = 8000
 
 	while True:
 
@@ -33,7 +33,7 @@ def Main():
 
 		data = data.encode('utf-8')
 		s.sendto(data, server)
-		print(data)
+		#print(data) #for testing
 
 	s.close()
 
