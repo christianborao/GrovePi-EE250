@@ -8,13 +8,13 @@ import socket
 ultrasonic_ranger = 4
 
 def Process_Ultrasonic():
-		host = '10.0.2.15'
-		port = 9000
+	host = '10.0.2.15'
+	port = 9000
 
-		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-		s.bind(host,port)
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s.bind((host,port))
 
-		print("Server Started!")
+	print("Server Started!")
 
 	while True:
 
@@ -26,5 +26,5 @@ def Process_Ultrasonic():
 
 	c.close()
 
-if __name__ == '__main__'
+if __name__ == '__main__':
 	Process_Ultrasonic()
