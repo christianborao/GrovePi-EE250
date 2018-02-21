@@ -10,3 +10,25 @@ import sys
 sys.path.append('../../Software/Python/')
 
 import grovepi
+import socket
+
+def Main():
+
+	host = '192.168.1.203'
+	port = 1024
+
+	server_addr = '192.168.1.144'
+
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s.bind(host,port)
+
+	while True:
+
+		server = (server_addr, int(dst_port))
+		s.sendto(grovepi.ultrasonicRead(ultrasonic_ranger), server)
+		dst_port = 8000
+
+	s.close()
+
+if __name__ == '__main__'
+	Main()
