@@ -14,6 +14,8 @@ import socket
 
 def Main():
 
+	ultrasonic_ranger = 4
+
 	host = '192.168.1.199' #RPI address
 	port = 5000
 
@@ -27,7 +29,7 @@ def Main():
 	while True:
 
 		server = (server_addr, int(dst_port))
-		data = str(grovepi.ultrasonicRead(4))
+		data = str(grovepi.ultrasonicRead(ultrasonic_ranger))
 
 		data = data.encode('utf-8')
 		s.sendto(data, server)
