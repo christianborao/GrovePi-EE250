@@ -19,15 +19,10 @@ def Process_Ultrasonic():
 while True:
 	try:
 
-		data, addr = s.recvfrom(1024)
-		data = data.decode('utf-8')
-		print("Distance: " + data)
+		print(str(grovepi.ultrasonicRead(ultrasonic_ranger))
 
-	except TypeError:
-		print("Error")
-	except IOError:
-		print("Error")
-	c.close()
+
+s.close()
 
 if __name__ == '__main__'
 	Process_Ultrasonic()

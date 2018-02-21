@@ -14,10 +14,10 @@ import socket
 
 def Main():
 
-	host = '192.168.1.203'
+	host = '192.168.1.203' #RPI address
 	port = 1024
 
-	server_addr = '192.168.1.144'
+	server_addr = '192.168.0.5' # OS address
 
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind(host,port)
