@@ -8,8 +8,8 @@ import socket
 ultrasonic_ranger = 4
 
 def Process_Ultrasonic():
-	host = '10.0.2.15'
-	port = 9000
+	host = '10.0.2.15' #the VM address, since I'm running from the VM
+	port = 9000 #this is forwarded from the host (mac) port 8000
 
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind((host,port))

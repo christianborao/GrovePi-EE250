@@ -11,3 +11,38 @@ sys.path.append('../../Software/Python/')
 import grovepi
 
 # use TCP
+import socket
+import time
+
+
+led = 2
+
+pinMode(led, "OUTPUT")
+
+def Main():
+
+	host = '192.168.1.199' #pi
+	port = 9000
+
+	s = socket.socket()
+	s.bind((host,port))
+	s.listen(1)
+
+	client, address = s.accept()
+
+	print("Connection with address: " + str(address))
+
+	while True:
+		data = client.recv(1024).decode('utf-8')
+		if(data == "LED_ON"):
+			digitalWrite(led,1)
+			print ("LED_ON Success")
+		elif(data == "LED_OFF"):
+			digitalWrite(led,0)
+			print("LED_OFF Success")
+		else:
+			break
+	s.close()
+
+if __name__ == '__main__':
+		Main()

@@ -17,14 +17,14 @@ def Main():
 	ultrasonic_ranger = 4
 
 	host = '192.168.1.199' #RPI address
-	port = 5000
+	port = 5000 
 
 	server_addr = '192.168.1.140' # OS address
 
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind((host,port))
 
-	dst_port = 8000
+	dst_port = 8000 #send this to mac port 8000, which gets forwarded to VM port 9000
 
 	while True:
 
