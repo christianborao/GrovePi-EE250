@@ -6,9 +6,9 @@
 import sys
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are successfully `import grovepi`
-sys.path.append('../../Software/Python/')
+sys.path.append('Christian/GrovePi-EE250/Software/Python/')
 
-import grovepi
+from grovepi import *
 
 # use TCP
 import socket
