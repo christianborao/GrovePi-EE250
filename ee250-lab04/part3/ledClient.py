@@ -1,5 +1,4 @@
 # LED Client 
-#
 # This code sends requests to the Raspberry Pi to turn on and
 #off the Grove LED using TCP packets.
 
@@ -10,13 +9,15 @@ def Main():
 	port = 9000
 
 	s = socket.socket()
-	s.connect((host,port))
 
 	data = input("-> ")
+	server = ('192.168.1.199', int(9000))
+	s.connect(server)
 
 	while data != 'q':
-		s.send(message.encode('utf-8'))
-		message = input("-> ")
+
+		s.sendto(data.encode('utf-8'), server)
+		data = input("-> ")
 	s.close()
 
 if __name__ == '__main__':
