@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 import time
 
 
-def custom_callback(client, userdata, message)
+def custom_callback(client, userdata, message):
     print("custom_callback: " + message.topic + " " + "\"" + 
         str(message.payload, "utf-8") + "\"")
 
