@@ -6,21 +6,28 @@ import paho.mqtt.client as mqtt
 import time
 
 
-def custom_callback(client, userdata, message):
-    print("custom_callback: " + message.topic + " " + "\"" + 
+def ranger_callback(client, userdata, message):
+    print("ultrasonicRanger: " + "\"" + 
         str(message.payload, "utf-8") + "\"")
+
+def button_callback(client, data, msg)
+
+    data = str(msg.payload, "utf-8")
+    print(data)
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to the ultrasonic ranger topic here
     client.subscribe("anrg-pi5/ultrasonicRanger")
+    client.subscribe("anrg-pi5/button")
 
-    client.message_callback_add("anrg-pi5/ultrasonicRanger", custom_callback)
+    client.message_callback_add("anrg-pi5/ultrasonicRanger", ranger_callback)
+    client.message_callback_add("anrg-pi5/button", button_callback)
 
 #Default message callback. Please use custom callbacks.
-def on_message(client, userdata, msg):
-    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
+#def on_message(client, userdata, msg):
+#    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py

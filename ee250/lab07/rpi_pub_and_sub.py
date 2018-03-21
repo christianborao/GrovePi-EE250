@@ -11,8 +11,11 @@ sys.path.append('../../Software/Python/')
 from grovepi import *
 
 led = 2
+button = 3
+ultrasonic_ranger = 4
 
 pinMode(led, "OUTPUT")
+pinMode(button, "INPUT")
 
 
 #my custom callback
@@ -34,14 +37,16 @@ def on_connect(client, userdata, flags, rc):
     #subscribe to topics of interest here
     client.subscribe("anrg-pi5/ultrasonicRanger")
     client.subscribe("anrg-pi5/led")
+    client.subscribe("anrg-pi5/button")
 
     #add the custom callback:
 
     client.message_callback_add("anrg-pi5/led", led_callback)
 
 #Default message callback. Please use custom callbacks.
-def on_message(client, userdata, msg):
+'''def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
+'''
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
@@ -50,8 +55,6 @@ if __name__ == '__main__':
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
-
-    ultrasonic_ranger = 4; # the sensor is connected to port 4
 
     while True:
         #print("delete this line")
@@ -67,6 +70,11 @@ if __name__ == '__main__':
         client.publish("anrg-pi5/ultrasonicRanger", data)
 
         #monitor the button:
+        button_status = digitalRead(button)
+
+        if (button_status)
+            client.publish("anrg-pi5/button", "Button pressed!")
+
 
 
 
