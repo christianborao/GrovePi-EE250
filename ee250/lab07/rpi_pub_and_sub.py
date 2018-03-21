@@ -18,6 +18,9 @@ pinMode(led, "OUTPUT")
 #my custom callback
 
 def led_callback(client, data, msg):
+
+    data = str(msg.payload, "utf-8")
+    
     if (data == "LED_ON"):
         print("Test")
         digitalWrite(led,1)

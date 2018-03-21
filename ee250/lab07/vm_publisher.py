@@ -30,7 +30,7 @@ def on_press(key):
         # send "a" character to rpi
         
         #send "LED_ON"
-        client.publish("anrg-pi5/led", str("LED_ON", "utf-8"))
+        client.publish("anrg-pi5/led", "LED_ON")
 
     elif k == 's':
         print("s")
@@ -40,7 +40,7 @@ def on_press(key):
         # send "d" character to rpi
         
         # send "LED_OFF"
-        client.publish("anrg-pi5/led", str("LED_OFF", "utf-8"))
+        client.publish("anrg-pi5/led", "LED_OFF")
 
 
 if __name__ == '__main__':
