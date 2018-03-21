@@ -57,7 +57,7 @@ if __name__ == '__main__':
         time.sleep(1)
 
         #read ultrasonic data:
-        data = str(grovepi.ultrasonicRead(ultrasonic_ranger))
+        data = str(ultrasonicRead(ultrasonic_ranger))
 
         #publish the ultrasonic data
         client.publish("anrg-pi5/ultrasonicRanger", data)
