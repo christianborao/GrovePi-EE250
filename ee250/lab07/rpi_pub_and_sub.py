@@ -72,7 +72,7 @@ if __name__ == '__main__':
         #monitor the button:
         button_status = digitalRead(button)
 
-        if (button_status)
+        if (button_status):
             client.publish("anrg-pi5/button", "Button pressed!")
 
 
