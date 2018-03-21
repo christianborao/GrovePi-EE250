@@ -5,10 +5,18 @@ Run vm_subscriber.py in a separate terminal on your VM."""
 import paho.mqtt.client as mqtt
 import time
 
+
+def custom_callback(client, userdata, message)
+    print("custom_callback: " + message.topic + " " + "\"" + 
+        str(message.payload, "utf-8") + "\"")
+
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to the ultrasonic ranger topic here
+    client.subscribe("anrg-pi5/ultrasonicRanger")
+
+    client.message_callback_add("anrg-pi5/ultrasonicRanger", custom_callback)
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
@@ -19,7 +27,7 @@ if __name__ == '__main__':
     client = mqtt.Client()
     client.on_message = on_message
     client.on_connect = on_connect
-    client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
+    client.connect("eclipse.usc.edu", 11000, 60)
     client.loop_start()
 
     while True:

@@ -5,10 +5,35 @@ Run rpi_pub_and_sub.py on your Raspberry Pi."""
 import paho.mqtt.client as mqtt
 import time
 
+import sys
+sys.path.append('../../Software/Python/')
+
+from grovepi import *
+
+led = 2
+
+pinMode(led, "OUTPUT")
+
+
+#my custom callback
+
+def led_callback(client, data, msg)
+    if (data == "LED_ON")
+        digitalWrite(led,1)
+    elif (data == "LED_OFF")
+        digitalWrite(led, 0)
+
+
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to topics of interest here
+    client.subscribe("anrg-pi5/ultrasonicRanger")
+    client.subscribe("anrg-pi5/led")
+
+    #add the custom callback:
+
+    client.message_callback_add("anrg-pi5/led", led_callback)
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
@@ -22,8 +47,22 @@ if __name__ == '__main__':
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
 
+    ultrasonic_ranger = 4; # the sensor is connected to port 4
+
     while True:
-        print("delete this line")
+        #print("delete this line")
+        
+        # loop and read the ultrasonic ranger in 1 second intervals
+        # and publish the distance values to anrg-pi5/ultrasonicRanger
         time.sleep(1)
-            
+
+        #read ultrasonic data:
+        data = str(grovepi.ultrasonicRead(ultrasonic_ranger))
+
+        #publish the ultrasonic data
+        client.publish("anrg-pi5/ultrasonicRanger", data)
+
+        #monitor the button:
+
+
 
