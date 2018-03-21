@@ -9,6 +9,7 @@ import sys
 sys.path.append('../../Software/Python/')
 
 from grovepi import *
+from grove_rgb_lcd import *
 
 led = 2
 button = 3
@@ -19,6 +20,13 @@ pinMode(button, "INPUT")
 
 
 #my custom callback
+
+def lcd_callback(client, lcd_data, lcd_msg):
+
+    lcd_data = str(lcd_msg.payload, "utf-8")
+
+    setRGB(0, 255, 0)
+    setText(lcd_data)
 
 def led_callback(client, data, msg):
 
@@ -38,10 +46,12 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("anrg-pi5/ultrasonicRanger")
     client.subscribe("anrg-pi5/led")
     client.subscribe("anrg-pi5/button")
+    client.subscribe("anrg-pi5/lcd")
 
     #add the custom callback:
 
     client.message_callback_add("anrg-pi5/led", led_callback)
+    client.message_callback_add("anrg-pi5/lcd", lcd_callback)
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):

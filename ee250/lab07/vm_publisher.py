@@ -11,6 +11,7 @@ def on_connect(client, userdata, flags, rc):
 
     #subscribe to topics of interest here
     client.subscribe("anrg-pi5/led")
+    client.subscribe("anrg-pi5/lcd")
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
@@ -25,19 +26,22 @@ def on_press(key):
     if k == 'w':
         print("w")
         #send "w" character to rpi
+        client.publish("anrg-pi5/lcd", "w")
     elif k == 'a':
         print("a")
         # send "a" character to rpi
-        
+        client.publish("anrg-pi5/lcd", "a")
         #send "LED_ON"
         client.publish("anrg-pi5/led", "LED_ON")
 
     elif k == 's':
         print("s")
         # send "s" character to rpi
+        client.publish("anrg-pi5/lcd", "s")
     elif k == 'd':
         print("d")
         # send "d" character to rpi
+        client.publish("anrg-pi5/lcd", "d")
         
         # send "LED_OFF"
         client.publish("anrg-pi5/led", "LED_OFF")
