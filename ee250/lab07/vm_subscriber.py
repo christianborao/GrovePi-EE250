@@ -26,8 +26,8 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi5/button", button_callback)
 
 #Default message callback. Please use custom callbacks.
-#def on_message(client, userdata, msg):
-#    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
+def on_message(client, userdata, msg):
+    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
