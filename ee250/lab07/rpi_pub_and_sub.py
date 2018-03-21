@@ -43,9 +43,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to topics of interest here
-    client.subscribe("anrg-pi5/ultrasonicRanger")
     client.subscribe("anrg-pi5/led")
-    client.subscribe("anrg-pi5/button")
     client.subscribe("anrg-pi5/lcd")
 
     #add the custom callback:
