@@ -10,7 +10,7 @@ def ranger_callback(client, userdata, message):
     print("ultrasonicRanger: " + "\"" + 
         str(message.payload, "utf-8") + "\"")
 
-def button_callback(client, data, msg)
+def button_callback(client, data, msg):
 
     data = str(msg.payload, "utf-8")
     print(data)
