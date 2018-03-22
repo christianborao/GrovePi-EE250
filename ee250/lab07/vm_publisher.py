@@ -28,6 +28,7 @@ def on_press(key):
         print("a")
         # send "a" character to rpi
         client.publish("anrg-pi5/lcd", "a")
+        
         #send "LED_ON"
         client.publish("anrg-pi5/led", "LED_ON")
 
@@ -53,11 +54,10 @@ if __name__ == '__main__':
     client = mqtt.Client()
     client.on_message = on_message
     client.on_connect = on_connect
-    client.connect("eclipse.usc.edu", 11000, 60)
+    client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
 
     while True:
-        #print("delete this line")
         time.sleep(1)
             
 
