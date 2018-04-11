@@ -58,50 +58,19 @@ if __name__ == '__main__':
     ranger1_average = []
     ranger2_average = []
     
-    side_Max = 70
+    side_Max = 70 #this helps us determine which sensor the person is closest to
+    buf = 5 #we found that this gave us more accurate results (see its use below)
     
-    ranger1_average.append(ranger1_dist[-1:])
-    ranger2_average.append(ranger2_dist[-1:])
+    time.sleep(0.5) # this fixes a bug we were experiencing with the ranger distance
+                    # lists not being populated
 
-    ranger1_average.append(ranger1_dist[-1:])
-    ranger2_average.append(ranger2_dist[-1:])
-    
-    #for the HTTP server:
+    #format the payload of the HTTP message as a JSON object:
 
     hdr = {
         'Content-Type': 'application/json',
         'Authorization': None #not using HTTP secure
     }
 
-    payload = {
-        'time': str(datetime.now()),
-        'event': "No object"
-    }
-
-    payload = {
-        'time': str(datetime.now()),
-        'event': "Moving Left"
-    }
-
-    payload = {
-        'time': str(datetime.now()),
-        'event': "Moving Right"
-    }
-
-    payload = {
-        'time': str(datetime.now()),
-        'event': "Still - Right"
-    }
-
-    payload = {
-        'time': str(datetime.now()),
-        'event': "Still - Left"
-    }
-
-    payload = {
-        'time': str(datetime.now()),
-        'event': "Still - Middle"
-    }
 
     while True:
         """ You have two lists, ranger1_dist and ranger2_dist, which hold a window
@@ -112,43 +81,88 @@ if __name__ == '__main__':
         0 and 512. However, these rangers do not detect people well beyond 
         ~125cm. """
         
-        if (len(ranger1_dist) >= 3):
+
+        if (len(ranger1_dist) >= 3): #if 3 integers are in the list
+            
+
             ranger1_average.append((ranger1_dist[0] + ranger1_dist[1] + ranger1_dist[2]) / 3)
-            #ranger1_average.append((ranger1_dist[0] + ranger1_dist[1] + ranger1_dist[2]) / 3)
             ranger1_average = ranger1_average[-MAX_AVERAGE_LIST_LENGTH:]
         
             ranger2_average.append((ranger2_dist[0] + ranger2_dist[1] + ranger2_dist[2]) / 3)
-            #ranger2_average.append((ranger2_dist[0] + ranger2_dist[1] + ranger2_dist[2]) / 3)
             ranger2_average = ranger2_average[-MAX_AVERAGE_LIST_LENGTH:]
-            
-
-            #print(ranger2_average[-2:])
 
         
             if ((ranger1_average[-1] > 125) and (ranger2_average[-1] > 125)):
                 print("No object ") 
                 
+                payload = {
+                    'time': str(datetime.now()),
+                    'event': "No object "
+                }      
+                
             else:
             
-                if ((ranger1_average[-1] < ranger1_average[-2]) or (ranger2_average[-1] > ranger2_average[-2])):
+                if ((ranger1_average[-1] < side_Max) and ((ranger1_average[-2] - buf) <= ranger1_dist[-1]) and ((ranger1_average[-2] + buf) >= ranger1_dist[-1])):
+                    print("Still - Left")
+
+                    payload = {
+                        'time': str(datetime.now()),
+                        'event': "Still - Left "
+                    }
+                
+                elif ((ranger2_average[-1] < side_Max) and ((ranger2_average[-2] - buf) <= ranger2_dist[-1]) and ((ranger2_average[-2] + buf) >= ranger2_dist[-1])):
+                    print("Still - Right ")
+
+                    payload = {
+                        'time': str(datetime.now()),
+                        'event': "Still - Right "
+                    }
+
+                elif ((ranger1_average[-1] < ranger1_average[-2]) or (ranger2_average[-1] > ranger2_average[-2])):
                     print("Moving Left ")
                 
+                    payload = {
+                        'time': str(datetime.now()),
+                        'event': "Moving Left "
+                    }
+
                 elif ((ranger2_average[-1] < ranger2_average[-2]) or (ranger1_average[-1] > ranger1_average[-2])):
                     print("Moving Right ")
 
-                elif (ranger1_average[-1] < side_Max):
-                    print("Still - Left")
-                
-                elif (ranger2_average[-1] < side_Max):
-                    print("Still - Right")
+                    payload = {
+                        'time': str(datetime.now()),
+                        'event': "Moving Right "
+                    }
+
+
                 else:
                     print("Still - Middle ")
 
+                    payload = {
+                        'time': str(datetime.now()),
+                        'event': "Still - Middle "
+                    }
+
+
+            #Sends an HTTP post message and blocks until a response is given
 
             response = requests.post("http://0.0.0.0:5000/post-event", headers = hdr,
                                  data = json.dumps(payload))
-
+            #Print the JSON object from the HTTP response
             print(response.json())
-                
+
+            
+            #this makes it so that the distance values are not too high
+
+            if (ranger1_dist[-1] > 125):
+                ranger1_dist[-1] = 125
+            if (ranger2_dist[-1] > 125):
+                ranger2_dist[-1] = 125
+               
+        
+        else: #if 3 integers are not in the list yet, append more
+            ranger1_average.append(ranger1_dist[0])
+            ranger2_average.append(ranger2_dist[0])
+
         time.sleep(0.2)
         
