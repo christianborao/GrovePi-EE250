@@ -1,6 +1,6 @@
-"""EE 250L Lab 07 Skeleton Code
+"""EE 250L Lab 09 Code
 
-Run rpi_pub_and_sub.py on your Raspberry Pi."""
+Based on rpi_pub_and_sub.py"""
 
 import paho.mqtt.client as mqtt
 import time
@@ -15,10 +15,9 @@ from grove_rgb_lcd import *
 
 #Note the grovepi seems to automatically know where the LCD is
 #connected to, so I did not code the LCD port at all
-#The same goes for the humidity/temperature sensor
 
 led = 2
-dht = 4 #for the temperature and humidity sensor
+dht_port = 4 #for the temperature and humidity sensor
 
 #set LED port as an output
 pinMode(led, "OUTPUT") 
@@ -38,15 +37,15 @@ def lcd_callback(client, lcd_data, lcd_msg):
 #callback for the LED
 def led_callback(client, data, msg):
 
-    #convert the data so that the if-else statement will be executed
+    #convert the data so that the if statement will be executed
     data = str(msg.payload, "utf-8")
     
     if (data == "LED_toggle"):
-        #print("Test")
+
         if (digitalRead(led)): #if the LED is currently on
             digitalWrite(led,0) #turn the LED off
         else:
-            digitalWrite(led,1) #turn the LED on
+            digitalWrite(led,1) #else, turn the LED on
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
@@ -56,7 +55,6 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("anrg-pi5/lcd")
 
     #add my custom callbacks:
-
     client.message_callback_add("anrg-pi5/led", led_callback)
     client.message_callback_add("anrg-pi5/lcd", lcd_callback)
 
@@ -73,9 +71,8 @@ if __name__ == '__main__':
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
 
-    # Loop and read the ultrasonic ranger in 1 second intervals
-    # and publish the distance values to anrg-pi5/ultrasonicRanger
-    # Also monitor the grovepi button
+    # this loop reads the temperature/humidity sensor every 1 second
+    # and publishes the data to the appropriate topics
 
     while True:
 
@@ -83,18 +80,15 @@ if __name__ == '__main__':
 
 
         #read temperature and humidity data:
-        [ temp_data,humid_data ] = dht(dht,1)
+        [ temp_data,humid_data ] = dht(dht_port,1)
 
         t = str(temp_data)
         h = str(humid_data)
 
-        print(t)
-        print(h)
-
-        #publish the ultrasonic ranger data
+        #publish the temperature data
         client.publish("anrg-pi5/temperature", t)
 
-
+        #publish the humidity data
         client.publish("anrg-pi5/humidity", h)
 
 
