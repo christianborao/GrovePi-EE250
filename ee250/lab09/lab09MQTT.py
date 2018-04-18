@@ -23,6 +23,23 @@ humidity_temperature = 4
 #set LED port as an output
 pinMode(led, "OUTPUT") 
 
+class th02:
+    
+    ADDRESS = 0x40
+
+    TH02_REG_STATUS = 0x00
+    TH02_REG_DATA_H = 0x01
+    TH02_REG_DATA_L = 0x02
+    TH02_REG_CONFIG = 0x03
+    TH02_REG_ID = 0x11
+
+    TH02_STATUS_RDY_MASK = 0x01
+
+    TH02_CMD_MEASURE_HUMI = [0x01]
+    TH02_CMD_MEASURE_TEMP = [0x11]
+
+    SUCCESS = 0
+
 #my custom callback for the LCD
 def lcd_callback(client, lcd_data, lcd_msg):
 
@@ -79,7 +96,8 @@ if __name__ == '__main__':
 
     while True:
         
-        
+        t = th02()
+
         time.sleep(1)
 
         #read temperature data:
