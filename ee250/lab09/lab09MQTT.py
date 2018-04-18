@@ -96,4 +96,4 @@ if __name__ == '__main__':
             client.publish("anrg-pi5/humidity", h)
 
         except (IOError,TypeError) as e:
-            print "Error"
+            print("Error")
