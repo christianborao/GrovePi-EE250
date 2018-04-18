@@ -79,17 +79,21 @@ if __name__ == '__main__':
 
     while True:
 
-        time.sleep(1)
+        try:
 
-        #read temperature and humidity data:
-        [temp_data, humid_data] = dht(dht,1)
+            time.sleep(1)
 
-        t = str(temp_data)
-        h = str(humid_data)
+            #read temperature and humidity data:
+            [ temp_data,humid_data ] = dht(dht,1)
 
-        #publish the ultrasonic ranger data
-        client.publish("anrg-pi5/temperature", t)
+            t = str(temp_data)
+            h = str(humid_data)
+
+            #publish the ultrasonic ranger data
+            client.publish("anrg-pi5/temperature", t)
 
 
-        client.publish("anrg-pi5/humidity", h)
+            client.publish("anrg-pi5/humidity", h)
 
+        except (IOError,TypeError) as e:
+            print "Error"
