@@ -79,9 +79,9 @@ if __name__ == '__main__':
 
     while True:
 
-        try:
+        time.sleep(1)
 
-            time.sleep(1)
+        try:
 
             #read temperature and humidity data:
             [ temp_data,humid_data ] = dht(dht,1)
